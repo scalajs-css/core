@@ -221,7 +221,7 @@ scalacOptions ++= Seq(
 
 # Community
 
-If you have any questions regarding scalajs-css ,open a thread [here]()
+If you have any questions regarding scalajs-css ,open a thread [here](https://github.com/scalajs-css/discuss/issues)
 
 
 
