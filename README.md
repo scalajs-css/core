@@ -208,7 +208,7 @@ println(s"ClassName : ${styles.container}")// prints ClassName: org-domain-compo
 
 ```
 
-For example in react apps we put all styles inside components package and we can make sure that inside components package each className will be unique, and we can easily omit `org-domain-` from our class names, to achieve this set macro setting  via scalacOptions in build.sbt
+For example in react apps we put all styles inside components package and we can make sure that inside components package each className will be unique, and we can easily omit `org-domain-components-` from our class names, to achieve this set macro setting  via scalacOptions in build.sbt
 
 
 ```scala
