@@ -1,0 +1,39 @@
+language: scala
+
+scala:
+- 2.12.2
+- 2.11.11
+
+jdk:
+- oraclejdk8
+
+install:
+  - . $HOME/.nvm/nvm.sh
+  - nvm install stable
+  - nvm use stable
+  - npm install
+
+env:
+  global:
+    JSENV=node
+
+script:
+  - sbt ++$TRAVIS_SCALA_VERSION test:fastOptJS test:fullOptJS
+  - sbt ++$TRAVIS_SCALA_VERSION 'set parallelExecution in ThisBuild := false' test
+  - sbt ++$TRAVIS_SCALA_VERSION 'set parallelExecution in ThisBuild := false' 'set scalaJSStage in ThisBuild := FullOptStage' test
+
+
+deploy:
+  provider: script
+  script:
+  - /bin/bash "$TRAVIS_BUILD_DIR/.travis.credentials.sh" && sbt ++$TRAVIS_SCALA_VERSION publish
+  on:
+    tags: true
+
+env:
+  global:
+  # travis encrypt BINTRAY_USER=xxx
+  - secure: "IgB4feHZSgj6bLuphORxJO1Ri2GDZU/zLKii0DbEO9xAiMcpiqlqGy1mSZnuAhri9BEi1G9NNcDF/1nM7oFMFe95gmnqhRTXggLDGD5m5+Cc2t/5ErwZmIB/FR71mzoxdxmmtTHRXJkS3yEanJYlf+zZmjQjwSyHE1wVxAXgEmhG2sDk8sE2aod4CQJwdra2oo5jR1ZXKSA5AgaMcAY+Iemn3dboYBGiWBMdso2PWbiWHeCC+SLQo6iilj6DtXpIJ0ORsg1lBUv1eNL0ypbrpfKP8eXhKAkY1jK0riupbJilk0pQ/gFQs4Bw1Wy3fIJjvk4uQmRS+I+r66kM5cD4d1v4yIK+XpV4ynVDPk21O0/vZtkQY+0Az+PL0SNN+479LVw8oTQaao2KSjfKeiVkzQIccu2bNNjfHCIxopGpkS1fDBU7ke77+c+J47mYwmYPDTBT89IpTui1+qiwkpEryvIUCwz7SysAy4qep7UKBtUiRP4GsRt+Ov8iE/oT8mzvEPKVbhc/g8++2I0Jmp5HH62Ira/rl4jr0KzzhvgpdvQ7LZSoBBqhrQ/YwKUcApn4n3mRwxBoAD63WaXxue0D/RTw+g0o2kSgRfDteLLDog+5QKUSIjV44hIZZ696mTRNw4bqEs49pkfqHYpOiCCSwwF1wOhszj2sz9x1ifQGxBs="
+  # travis encrypt BINTRAY_PASSWORD=xxx
+  - secure: "ICNhtU4aS59iXK0TpiC4GvrRphucLBpjmh86XKwks5JXkkUbsxfXbOGjp/M8rI1jvwpSJ5go5F06B6NmX2vt8dxsd5cEVhAzZ91Q0LijFatkgL0iABCAPiHK7H2sTW525ZIpo6RKRHTfkIIcsLr2uEqBDmrsPdjh9Ve+kzqYWid5Fu0QRipNolr5sZ97fp4883DAKYY/X5t9hkq1GWlcwnz+PX32TkgWTYUetKJIub2vqHUVNZvvee09naFqoEXbvVjhCFOfEhtYbBUW8xYKj1mkVMeLpVpk1G+oDqVNFjqRP5B6KMHgzOwFGta1kVUuY6NxbWbB0eHqJaxpRcJrWYIUKlda2/QLG0WZKNfdtpqNqQWtoom02kWsYRQLBjAumZNB+K8T77ZUyoaYhDyRr58g0gJt3XgcyBqnuSnCUyY4fE3HIV+x82YFR4LoAQSKWNq4kCLtra3N1a6mfoOWuuQxw1Q56VbzOwzRgTxdtfPUyOyYuclgAnmkta5LgojcVU+4lr414dsmcFD1MIRcuSAK9FlRW2rhzv6Qiwnm/XbNmMUGFdYM0C3//cYsQlknqkf0BpjL4RWleDPaGuRhKwMpUbESvDoAzg2G5LRdM3FH9jJU9vbEJ250MkcSbBXR639gg6xMlGyZ/+FmZCIxigyrW5m+M0A54lOoJBoY+do="
+
