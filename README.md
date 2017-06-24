@@ -15,12 +15,12 @@ Features :
 
 # Docs 
 
-* [Define StyleSheet](# define stylesheet)
-* [Add to Document](#add to document)
-* [Remove from Document](#remove from document)
-* [StyleSheet Order](#stylesheet order)
+* [Define StyleSheet](#define-stylesheet)
+* [Add to Document](#add-to-document)
+* [Remove from Document](#remove-from-document)
+* [StyleSheet Order](#stylesheet-order)
 * [Plugins](#plugins)
-* [ClassName Shrink](#classname shrink)
+* [ClassName Shrink](#classname-shrink)
 * [Community](#community)
 
 
