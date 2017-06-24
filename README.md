@@ -8,8 +8,9 @@ Features :
 * Extensible via Plugins
 
 ```scala
-//add this to your build.sbt libraryDependencies
-"scalajs-css" %%% "core" % "replaceThisWithLatestVersionNumberFromReleaseTags"
+// build.sbt
+resolvers += Resolver.bintrayRepo("scalajs-css", "maven")
+libraryDependencies += "scalajs-css" %%% "core" % "replaceThisWithLatestVersionNumberFromReleaseTags"
 ```
 
 
