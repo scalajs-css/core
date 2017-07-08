@@ -28,7 +28,7 @@ private[scalajscss] object ScalaJSCSSMacro {
   def styleExtendMacroImpl(c: whitebox.Context)(styles: c.Tree*)(
       props: c.Tree*): c.Tree = {
     import c.universe._
-    val className = c.internal.enclosingOwner.fullName
+    val className = getClassName(c)
 
     val stylesPrefix = getCombinedStyles(c)(styles)
     val cssProps = getCSSFromProps(c)(props)

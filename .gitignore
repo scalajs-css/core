@@ -32,3 +32,5 @@ npm-debug.log
 
 
 #project
+*.test.js
+*.test.js.map

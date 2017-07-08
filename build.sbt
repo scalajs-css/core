@@ -1,8 +1,6 @@
-import org.scalajs.core.tools.linker.backend.ModuleKind.CommonJSModule
-
 name := "core"
 
-//version := "2017.6.0-SNAPSHOT"
+//version := "2017.7.0-SNAPSHOT"
 
 enablePlugins(ScalaJSPlugin)
 
@@ -18,15 +16,12 @@ scalacOptions ++= Seq(
   "-feature",
   "-deprecation",
   "-unchecked",
-  "-language:implicitConversions",
-  "-Xmacro-settings:autoprefix=true",
-  "-Xmacro-settings:classShrink=components",
-  "-P:scalajs:sjsDefinedByDefault" // TODO remove this when we upgrade to scala.js 1.0
+  "-language:implicitConversions"
 )
 
 libraryDependencies ++= Seq(
   "org.scala-lang" % "scala-reflect" % scalaVersion.value % Provided,
-  "org.scala-js" %%% "scalajs-dom" % "0.9.1" % Provided)
+  "org.scala-js" %%% "scalajs-dom" % "0.9.3" % Provided)
 
 //bintray
 resolvers += Resolver.jcenterRepo
@@ -44,11 +39,40 @@ publishArtifact in Test := false
 
 //Test
 
-scalaJSModuleKind := CommonJSModule
 resolvers += Resolver.bintrayRepo("scalajs-css", "maven")
-libraryDependencies += "org.scalatest" %%% "scalatest" % "3.0.0" % Test
-libraryDependencies ++= Seq("io.scalajs" %%% "nodejs" % "0.4.0-pre2" % Test,
-                            "org.scala-js" %%% "scalajs-dom" % "0.9.1" % Test)
+scalaJSUseMainModuleInitializer in Test := true
 
+scalaJSLinkerConfig ~= (_.withModuleKind(ModuleKind.CommonJSModule))
+
+val TEST_FILE = s"./sjs.test.js"
+
+artifactPath in Test in fastOptJS := new File(TEST_FILE)
+artifactPath in Test in fullOptJS := new File(TEST_FILE)
+
+val testDev = Def.taskKey[Unit]("test in dev mode")
+val testProd = Def.taskKey[Unit]("test in prod mode")
+
+testDev := {
+  (fastOptJS in Test).value
+  runJest()
+}
+
+testProd := {
+  (fullOptJS in Test).value
+  runJest()
+}
+
+def runJest() = {
+  import sys.process._
+  val jestResult = "npm test".!
+  if (jestResult != 0) throw new IllegalStateException("Jest Suite failed")
+}
+
+resolvers += Resolver.bintrayRepo("scalajs-react-interface", "maven")
+resolvers += Resolver.bintrayRepo("scalajs-jest", "maven")
+
+libraryDependencies ++= Seq(
+  "scalajs-jest" %%% "core" % "2017.7.9-beta" % Test
+)
 //scalaJSStage in Global := FastOptStage
 scalaJSStage in Global := FullOptStage

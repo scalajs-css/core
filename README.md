@@ -98,7 +98,7 @@ flex-direction: column-reverse;
 .packagename-styles-container4 {
 background-color: blue;
 }
-.scalajscss.ScalaJSCSSTest.styles.container3 {
+.scalajscss-ScalaJSCSSTest-styles-container3 {
 color: red;
 }
 .packagename-styles-container:nth-child(46) {
@@ -214,7 +214,7 @@ For example in react apps we put all styles inside components package and we can
 ```scala
 scalacOptions ++= Seq(
    ....,
-  "-Xmacro-settings:classShrink=components"
+  "-Xmacro-settings:classNameShrink=components"
 )
 
 ```

@@ -1,5 +1,4 @@
 package scalajscss
-import io.scalajs.nodejs.fs.Fs
 import org.scalajs.dom
 import org.scalajs.dom.ext.PimpedHtmlCollection
 
@@ -81,10 +80,12 @@ class ScalaJSCSSTest extends BaseTest {
     val container = style(display.flex)
   }
 
-  test("Test StyleSheet") {
+  test(
+    "Test StyleSheet",
+    () => {
 
-    val expected =
-      s"""
+      val expected =
+        s"""
          |.scalajscss-ScalaJSCSSTest-styles-container {
          |background-color: red;
          |display: flex;
@@ -100,7 +101,7 @@ class ScalaJSCSSTest extends BaseTest {
          |.scalajscss-ScalaJSCSSTest-styles-container4 {
          |background-color: blue;
          |}
-         |.scalajscss.ScalaJSCSSTest.styles.container3 {
+         |.scalajscss-ScalaJSCSSTest-styles-container3 {
          |color: red;
          |}
          |.scalajscss-ScalaJSCSSTest-styles-container:nth-child(46) {
@@ -137,117 +138,126 @@ class ScalaJSCSSTest extends BaseTest {
          |}
      """.stripMargin
 
-    println(s"raw css ${styles.css}")
-    assert(styles.css == expected.substring(0, expected.lastIndexOf("}") + 1)) // TODO check this later to handle extra spaces added by stripmargin
-  }
-
-  test("Plugins") {
-
-    val specialFlexExpected =
-      s"""
-         |.scalajscss-ScalaJSCSSTest-styles-container {
-         |background-color: red;
-         |display: special-flex;
-         |width: 100%;
-         |z-index: 100;
-         |text-underline-position: under left;
-         |transform-style: preserve-3d;
-         |}
-         |.scalajscss-ScalaJSCSSTest-styles-container2 {
-         |display: special-flex;
-         |flex-direction: column-reverse;
-         |}
-         |.scalajscss-ScalaJSCSSTest-styles-container4 {
-         |background-color: blue;
-         |}
-         |.scalajscss.ScalaJSCSSTest.styles.container3 {
-         |color: red;
-         |}
-         |.scalajscss-ScalaJSCSSTest-styles-container:nth-child(46) {
-         |background-color: yellow;
-         |}
-         |.scalajscss-ScalaJSCSSTest-styles-container:hover {
-         |background-color: red;
-         |}
-         |.scalajscss-ScalaJSCSSTest-styles-container::after {
-         |content: "Look at this orange box.";
-         |background-color: orange;
-         |}
-         |.scalajscss-ScalaJSCSSTest-styles-container2 li {
-         |color: green;
-         |}
-         |@media (max-width: 1024px) {
-         |.scalajscss-ScalaJSCSSTest-styles-container {
-         |background-color: yellow;
-         |}
-         |}
-         |@keyframes identifier1 {
-         |from {
-         |top: 0;
-         |}
-         |to {
-         |top: 100px;
-         |}
-         |}
-         |body {
-         |background-color: white;
-         |}
-         |a {
-         |color: purple;
-         |}
-     """.stripMargin
-
-    class SpecialFlexPlugin extends ScalaJSCSSPlugin {
-      override def process(sheet: CSSStyleSheet): String = {
-        sheet.css.replace("display: flex", "display: special-flex")
-      }
+      println(s"raw css ${styles.css}")
+      assert(styles.css == expected.substring(
+        0,
+        expected.lastIndexOf("}") + 1)) // TODO check this later to handle extra spaces added by stripmargin
     }
-    CSSStyleSheetRegistry.setPlugins(new SpecialFlexPlugin())
+  )
 
-    CSSStyleSheetRegistry.addToDocumentAndKeepCSSInMemory(styles)
+  test(
+    "Plugins",
+    () => {
 
-    assert(
-      styles.css == specialFlexExpected
-        .substring(0, specialFlexExpected.lastIndexOf("}") + 1))
+      val specialFlexExpected =
+        s"""
+         |.scalajscss-ScalaJSCSSTest-styles-container {
+         |background-color: red;
+         |display: special-flex;
+         |width: 100%;
+         |z-index: 100;
+         |text-underline-position: under left;
+         |transform-style: preserve-3d;
+         |}
+         |.scalajscss-ScalaJSCSSTest-styles-container2 {
+         |display: special-flex;
+         |flex-direction: column-reverse;
+         |}
+         |.scalajscss-ScalaJSCSSTest-styles-container4 {
+         |background-color: blue;
+         |}
+         |.scalajscss-ScalaJSCSSTest-styles-container3 {
+         |color: red;
+         |}
+         |.scalajscss-ScalaJSCSSTest-styles-container:nth-child(46) {
+         |background-color: yellow;
+         |}
+         |.scalajscss-ScalaJSCSSTest-styles-container:hover {
+         |background-color: red;
+         |}
+         |.scalajscss-ScalaJSCSSTest-styles-container::after {
+         |content: "Look at this orange box.";
+         |background-color: orange;
+         |}
+         |.scalajscss-ScalaJSCSSTest-styles-container2 li {
+         |color: green;
+         |}
+         |@media (max-width: 1024px) {
+         |.scalajscss-ScalaJSCSSTest-styles-container {
+         |background-color: yellow;
+         |}
+         |}
+         |@keyframes identifier1 {
+         |from {
+         |top: 0;
+         |}
+         |to {
+         |top: 100px;
+         |}
+         |}
+         |body {
+         |background-color: white;
+         |}
+         |a {
+         |color: purple;
+         |}
+     """.stripMargin
 
-    CSSStyleSheetRegistry.removeFromDocument(styles)
-  }
+      class SpecialFlexPlugin extends ScalaJSCSSPlugin {
+        override def process(sheet: CSSStyleSheet): String = {
+          sheet.css.replace("display: flex", "display: special-flex")
+        }
+      }
+      CSSStyleSheetRegistry.setPlugins(new SpecialFlexPlugin())
 
-  test("StyleSheet Order") {
+      CSSStyleSheetRegistry.addToDocumentAndKeepCSSInMemory(styles)
 
-    CSSStyleSheetRegistry.setOrder(styles01,
-                                   styles02,
-                                   styles03,
-                                   styles04,
-                                   styles05)
+      assert(
+        styles.css == specialFlexExpected
+          .substring(0, specialFlexExpected.lastIndexOf("}") + 1))
 
-    CSSStyleSheetRegistry.addToDocument(styles03)
+      CSSStyleSheetRegistry.removeFromDocument(styles)
+    }
+  )
 
-    CSSStyleSheetRegistry.addToDocument(styles02)
+  test(
+    "StyleSheet Order",
+    () => {
 
-    CSSStyleSheetRegistry.addToDocument(styles05)
+      CSSStyleSheetRegistry.setOrder(styles01,
+                                     styles02,
+                                     styles03,
+                                     styles04,
+                                     styles05)
 
-    CSSStyleSheetRegistry.addToDocument(styles04, styles01)
+      CSSStyleSheetRegistry.addToDocument(styles03)
 
-    val list =
-      dom.document.head.children.toList
-        .filter(_.id.contains(styles01.name.init))
+      CSSStyleSheetRegistry.addToDocument(styles02)
 
-    assert(list.size == 5)
-    assert(
-      list
-        .map(_.id)
-        == List(styles01.name,
-                styles02.name,
-                styles03.name,
-                styles04.name,
-                styles05.name))
+      CSSStyleSheetRegistry.addToDocument(styles05)
 
-    CSSStyleSheetRegistry.removeFromDocument(styles01,
-                                             styles02,
-                                             styles03,
-                                             styles04,
-                                             styles05)
-  }
+      CSSStyleSheetRegistry.addToDocument(styles04, styles01)
+
+      val list =
+        dom.document.head.children.toList
+          .filter(_.id.contains(styles01.name.init))
+
+      assert(list.size == 5)
+      assert(
+        list
+          .map(_.id)
+          == List(styles01.name,
+                  styles02.name,
+                  styles03.name,
+                  styles04.name,
+                  styles05.name))
+
+      CSSStyleSheetRegistry.removeFromDocument(styles01,
+                                               styles02,
+                                               styles03,
+                                               styles04,
+                                               styles05)
+    }
+  )
 
 }
