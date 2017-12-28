@@ -4,14 +4,14 @@ import java.io.{File, PrintWriter}
 
 import scala.io.Source
 import scala.language.experimental.macros
-import scala.reflect.macros.whitebox
+import scala.reflect.macros.blackbox
 import scala.sys.process.Process
 
 private[scalajscss] object ScalaJSCSSMacro {
 
   private var classNameShrink: String = null
 
-  def styleMacroImpl(c: whitebox.Context)(props: c.Tree*): c.Tree = {
+  def styleMacroImpl(c: blackbox.Context)(props: c.Tree*): c.Tree = {
     import c.universe._
     val className = getClassName(c)
 
@@ -25,7 +25,7 @@ private[scalajscss] object ScalaJSCSSMacro {
     """
   }
 
-  def styleExtendMacroImpl(c: whitebox.Context)(styles: c.Tree*)(
+  def styleExtendMacroImpl(c: blackbox.Context)(styles: c.Tree*)(
       props: c.Tree*): c.Tree = {
     import c.universe._
     val className = getClassName(c)
@@ -44,7 +44,7 @@ private[scalajscss] object ScalaJSCSSMacro {
     """
   }
 
-  def styleSuffixMacroImpl(c: whitebox.Context)(style: c.Tree, suffix: c.Tree)(
+  def styleSuffixMacroImpl(c: blackbox.Context)(style: c.Tree, suffix: c.Tree)(
       props: c.Tree*): c.Tree = {
     import c.universe._
     val className = q"${style}"
@@ -60,13 +60,12 @@ private[scalajscss] object ScalaJSCSSMacro {
     """
   }
 
-  def mediaMacroImpl(c: whitebox.Context)(condition: c.Tree)(
+  def mediaMacroImpl(c: blackbox.Context)(condition: c.Tree)(
       variants: c.Tree*): c.Tree = {
     import c.universe._
 
     if (variants.isEmpty)
-      c.abort(c.enclosingPosition,
-              "You must provide at least one styleVariant")
+      c.abort(c.enclosingPosition, "You must provide at least one styleVariant")
 
     val styleVariants = variants.map(t => q"$t")
 
@@ -80,7 +79,7 @@ private[scalajscss] object ScalaJSCSSMacro {
     """
   }
 
-  def keyframesMacroImpl(c: whitebox.Context)(name: c.Tree)(
+  def keyframesMacroImpl(c: blackbox.Context)(name: c.Tree)(
       blocks: c.Tree*): c.Tree = {
     import c.universe._
 
@@ -103,7 +102,7 @@ private[scalajscss] object ScalaJSCSSMacro {
     """
   }
 
-  def styleVariantMacroImpl(c: whitebox.Context)(style: c.Tree)(
+  def styleVariantMacroImpl(c: blackbox.Context)(style: c.Tree)(
       props: c.Tree*): c.Tree = {
     import c.universe._
 
@@ -121,7 +120,7 @@ private[scalajscss] object ScalaJSCSSMacro {
     """
   }
 
-  def keyframeBlockMacroImpl(c: whitebox.Context)(blockSelector: c.Tree)(
+  def keyframeBlockMacroImpl(c: blackbox.Context)(blockSelector: c.Tree)(
       props: c.Tree*): c.Tree = {
     import c.universe._
 
@@ -140,7 +139,7 @@ private[scalajscss] object ScalaJSCSSMacro {
     """
   }
 
-  def styleGlobalMacroImpl(c: whitebox.Context)(name: c.Tree)(
+  def styleGlobalMacroImpl(c: blackbox.Context)(name: c.Tree)(
       props: c.Tree*): c.Tree = {
     import c.universe._
 
@@ -157,7 +156,7 @@ private[scalajscss] object ScalaJSCSSMacro {
   }
 
   @inline
-  def getCSSFromProps(c: whitebox.Context)(props: Seq[c.Tree]) = {
+  def getCSSFromProps(c: blackbox.Context)(props: Seq[c.Tree]) = {
     import c.universe._
     if (props.isEmpty)
       c.abort(c.enclosingPosition, "You must provide at least one css prop")
@@ -199,7 +198,7 @@ private[scalajscss] object ScalaJSCSSMacro {
   }
 
   @inline
-  def getCombinedStyles(c: whitebox.Context)(styles: Seq[c.Tree]) = {
+  def getCombinedStyles(c: blackbox.Context)(styles: Seq[c.Tree]) = {
     import c.universe._
 
     val finalTerm = TermName(c.freshName())
@@ -217,7 +216,7 @@ private[scalajscss] object ScalaJSCSSMacro {
   }
 
   @inline
-  def getClassName(c: whitebox.Context): String = {
+  def getClassName(c: blackbox.Context): String = {
     val name = c.internal.enclosingOwner.fullName
     if (classNameShrink != null)
       if (name.contains(classNameShrink))
