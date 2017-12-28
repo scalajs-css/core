@@ -80,12 +80,10 @@ class ScalaJSCSSTest extends BaseTest {
     val container = style(display.flex)
   }
 
-  test(
-    "Test StyleSheet",
-    () => {
+  test("Test StyleSheet") {
 
-      val expected =
-        s"""
+    val expected =
+      s"""
          |.scalajscss-ScalaJSCSSTest-styles-container {
          |background-color: red;
          |display: flex;
@@ -138,19 +136,14 @@ class ScalaJSCSSTest extends BaseTest {
          |}
      """.stripMargin
 
-      println(s"raw css ${styles.css}")
-      assert(styles.css == expected.substring(
-        0,
-        expected.lastIndexOf("}") + 1)) // TODO check this later to handle extra spaces added by stripmargin
-    }
-  )
+    println(s"raw css ${styles.css}")
+    assert(styles.css == expected.substring(0, expected.lastIndexOf("}") + 1)) // TODO check this later to handle extra spaces added by stripmargin
+  }
 
-  test(
-    "Plugins",
-    () => {
+  test("Plugins") {
 
-      val specialFlexExpected =
-        s"""
+    val specialFlexExpected =
+      s"""
          |.scalajscss-ScalaJSCSSTest-styles-container {
          |background-color: red;
          |display: special-flex;
@@ -203,61 +196,57 @@ class ScalaJSCSSTest extends BaseTest {
          |}
      """.stripMargin
 
-      class SpecialFlexPlugin extends ScalaJSCSSPlugin {
-        override def process(sheet: CSSStyleSheet): String = {
-          sheet.css.replace("display: flex", "display: special-flex")
-        }
+    class SpecialFlexPlugin extends ScalaJSCSSPlugin {
+      override def process(sheet: CSSStyleSheet): String = {
+        sheet.css.replace("display: flex", "display: special-flex")
       }
-      CSSStyleSheetRegistry.setPlugins(new SpecialFlexPlugin())
-
-      CSSStyleSheetRegistry.addToDocumentAndKeepCSSInMemory(styles)
-
-      assert(
-        styles.css == specialFlexExpected
-          .substring(0, specialFlexExpected.lastIndexOf("}") + 1))
-
-      CSSStyleSheetRegistry.removeFromDocument(styles)
     }
-  )
+    CSSStyleSheetRegistry.setPlugins(new SpecialFlexPlugin())
 
-  test(
-    "StyleSheet Order",
-    () => {
+    CSSStyleSheetRegistry.addToDocumentAndKeepCSSInMemory(styles)
 
-      CSSStyleSheetRegistry.setOrder(styles01,
-                                     styles02,
-                                     styles03,
-                                     styles04,
-                                     styles05)
+    assert(
+      styles.css == specialFlexExpected
+        .substring(0, specialFlexExpected.lastIndexOf("}") + 1))
 
-      CSSStyleSheetRegistry.addToDocument(styles03)
+    CSSStyleSheetRegistry.removeFromDocument(styles)
+  }
 
-      CSSStyleSheetRegistry.addToDocument(styles02)
+  test("StyleSheet Order") {
 
-      CSSStyleSheetRegistry.addToDocument(styles05)
+    CSSStyleSheetRegistry.setOrder(styles01,
+                                   styles02,
+                                   styles03,
+                                   styles04,
+                                   styles05)
 
-      CSSStyleSheetRegistry.addToDocument(styles04, styles01)
+    CSSStyleSheetRegistry.addToDocument(styles03)
 
-      val list =
-        dom.document.head.children.toList
-          .filter(_.id.contains(styles01.name.init))
+    CSSStyleSheetRegistry.addToDocument(styles02)
 
-      assert(list.size == 5)
-      assert(
-        list
-          .map(_.id)
-          == List(styles01.name,
-                  styles02.name,
-                  styles03.name,
-                  styles04.name,
-                  styles05.name))
+    CSSStyleSheetRegistry.addToDocument(styles05)
 
-      CSSStyleSheetRegistry.removeFromDocument(styles01,
-                                               styles02,
-                                               styles03,
-                                               styles04,
-                                               styles05)
-    }
-  )
+    CSSStyleSheetRegistry.addToDocument(styles04, styles01)
+
+    val list =
+      dom.document.head.children.toList
+        .filter(_.id.contains(styles01.name.init))
+
+    assert(list.size == 5)
+    assert(
+      list
+        .map(_.id)
+        == List(styles01.name,
+                styles02.name,
+                styles03.name,
+                styles04.name,
+                styles05.name))
+
+    CSSStyleSheetRegistry.removeFromDocument(styles01,
+                                             styles02,
+                                             styles03,
+                                             styles04,
+                                             styles05)
+  }
 
 }

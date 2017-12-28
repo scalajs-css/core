@@ -1,16 +1,15 @@
 name := "core"
 
-//version := "2017.7.0-SNAPSHOT"
+version := "2017.12.0-SNAPSHOT"
 
 enablePlugins(ScalaJSPlugin)
 
-val scala211 = "2.11.11"
 
-val scala212 = "2.12.2"
+val scala212 = "2.12.4"
 
-scalaVersion := scala211
+scalaVersion := scala212
 
-crossScalaVersions := Seq(scala211, scala212)
+crossScalaVersions := Seq(scala212)
 
 scalacOptions ++= Seq(
   "-feature",
@@ -21,7 +20,7 @@ scalacOptions ++= Seq(
 
 libraryDependencies ++= Seq(
   "org.scala-lang" % "scala-reflect" % scalaVersion.value % Provided,
-  "org.scala-js" %%% "scalajs-dom" % "0.9.3" % Provided)
+  "org.scala-js" %%% "scalajs-dom" % "0.9.4" % Provided)
 
 //bintray
 resolvers += Resolver.jcenterRepo
@@ -72,7 +71,7 @@ resolvers += Resolver.bintrayRepo("scalajs-react-interface", "maven")
 resolvers += Resolver.bintrayRepo("scalajs-jest", "maven")
 
 libraryDependencies ++= Seq(
-  "scalajs-jest" %%% "core" % "2017.7.9-beta" % Test
+  "scalajs-jest" %%% "core" % "2017.12.27-RC" % Test
 )
 //scalaJSStage in Global := FastOptStage
 scalaJSStage in Global := FullOptStage

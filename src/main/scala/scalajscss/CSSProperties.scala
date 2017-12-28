@@ -280,6 +280,19 @@ trait CSSProperties {
     def :=(value: String) = CSSProp
   }
 
+  object overflow extends AlienNameProp {
+
+    def visible = CSSProp
+    def hidden = CSSProp
+    def scroll = CSSProp
+    def auto = CSSProp
+    def inherit = CSSProp
+    def initial = CSSProp
+    def unset = CSSProp
+
+    def :=(value: String) = CSSProp
+  }
+
   object boxShadow extends AlienNameProp {
     def :=(value: String) = CSSProp
   }
