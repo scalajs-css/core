@@ -662,6 +662,7 @@ trait CSSProperties {
     def flex = CSSProp
     def grid = CSSProp
     def inlineFlex = CSSProp
+    def inlineGrid = CSSProp
   }
 
   object pointerEvents extends AlienNameProp {
