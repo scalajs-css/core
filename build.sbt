@@ -41,7 +41,7 @@ publishArtifact in Test := false
 resolvers += Resolver.bintrayRepo("scalajs-css", "maven")
 scalaJSUseMainModuleInitializer in Test := true
 
-scalaJSLinkerConfig ~= (_.withModuleKind(ModuleKind.CommonJSModule))
+scalaJSLinkerConfig ~= (_.withModuleKind(ModuleKind.CommonJSModule).withSourceMap(false))
 
 val TEST_FILE = s"./sjs.test.js"
 

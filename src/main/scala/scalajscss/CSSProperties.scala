@@ -660,6 +660,7 @@ trait CSSProperties {
     def tableRow = CSSProp
     def tableRowGroup = CSSProp
     def flex = CSSProp
+    def grid = CSSProp
     def inlineFlex = CSSProp
   }
 
@@ -980,6 +981,113 @@ trait CSSProperties {
     def columnReverse = CSSProp
     def row = CSSProp
     def rowReverse = CSSProp
+  }
+
+  object gridTemplateColumns extends AlienNameProp {
+
+    def :=(value: String) = CSSProp
+
+  }
+  object gridTemplateRows extends AlienNameProp {
+
+    def :=(value: String) = CSSProp
+
+  }
+
+  object gridTemplateAreas extends AlienNameProp {
+
+    def :=(value: String) = CSSProp
+
+  }
+
+  object gridTemplate extends AlienNameProp {
+
+    def :=(value: String) = CSSProp
+
+  }
+
+  object gridAutoColumns extends AlienNameProp {
+
+    def :=(value: String) = CSSProp
+
+  }
+
+  object gridAutoRows extends AlienNameProp {
+
+    def :=(value: String) = CSSProp
+
+  }
+
+  object gridAutoFlow extends AlienNameProp {
+
+    def :=(value: String) = CSSProp
+
+  }
+
+  object gridRowStart extends AlienNameProp {
+
+    def :=(value: String) = CSSProp
+
+  }
+
+  object gridColumnStart extends AlienNameProp {
+
+    def :=(value: String) = CSSProp
+
+  }
+
+  object gridRowEnd extends AlienNameProp {
+
+    def :=(value: String) = CSSProp
+
+  }
+
+  object gridColumnEnd extends AlienNameProp {
+
+    def :=(value: String) = CSSProp
+
+  }
+
+  object gridRow extends AlienNameProp {
+
+    def :=(value: String) = CSSProp
+
+  }
+
+  object gridColumn extends AlienNameProp {
+
+    def :=(value: String) = CSSProp
+
+  }
+
+  object gridArea extends AlienNameProp {
+
+    def :=(value: String) = CSSProp
+
+  }
+
+  object gridRowGap extends AlienNameProp {
+
+    def :=(value: String) = CSSProp
+
+  }
+
+  object gridColumnGap extends AlienNameProp {
+
+    def :=(value: String) = CSSProp
+
+  }
+
+  object gridGap extends AlienNameProp {
+
+    def :=(value: String) = CSSProp
+
+  }
+
+  object grid {
+
+    def :=(value: String) = CSSProp
+
   }
 
 }

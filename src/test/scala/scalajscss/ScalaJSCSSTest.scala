@@ -22,6 +22,12 @@ class ScalaJSCSSTest extends BaseTest {
             textUnderlinePosition.`under left`,
             transformStyle.preserve3d)
 
+    val gridContainer =
+      style(display.grid,
+            gridTemplateColumns := "repeat(3, 1fr)",
+            gridGap := "10px",
+            gridAutoRows := "minmax(100px, auto)")
+
     val container2 = style(display.flex, flexDirection.columnReverse)
 
     val container4 =
@@ -92,6 +98,12 @@ class ScalaJSCSSTest extends BaseTest {
          |text-underline-position: under left;
          |transform-style: preserve-3d;
          |}
+         |.scalajscss-ScalaJSCSSTest-styles-gridContainer {
+         |display: grid;
+         |grid-template-columns: repeat(3, 1fr);
+         |grid-gap: 10px;
+         |grid-auto-rows: minmax(100px, auto);
+         |}
          |.scalajscss-ScalaJSCSSTest-styles-container2 {
          |display: flex;
          |flex-direction: column-reverse;
@@ -151,6 +163,12 @@ class ScalaJSCSSTest extends BaseTest {
          |z-index: 100;
          |text-underline-position: under left;
          |transform-style: preserve-3d;
+         |}
+         |.scalajscss-ScalaJSCSSTest-styles-gridContainer {
+         |display: grid;
+         |grid-template-columns: repeat(3, 1fr);
+         |grid-gap: 10px;
+         |grid-auto-rows: minmax(100px, auto);
          |}
          |.scalajscss-ScalaJSCSSTest-styles-container2 {
          |display: special-flex;
