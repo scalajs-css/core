@@ -661,6 +661,7 @@ trait CSSProperties {
     def tableRowGroup = CSSProp
     def flex = CSSProp
     def grid = CSSProp
+    def subgrid = CSSProp
     def inlineFlex = CSSProp
     def inlineGrid = CSSProp
   }
