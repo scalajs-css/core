@@ -71,7 +71,7 @@ resolvers += Resolver.bintrayRepo("scalajs-react-interface", "maven")
 resolvers += Resolver.bintrayRepo("scalajs-jest", "maven")
 
 libraryDependencies ++= Seq(
-  "scalajs-jest" %%% "core" % "2017.12.27-RC" % Test
+  "scalajs-jest" %%% "core" % "2018.2.2-RC" % Test
 )
 //scalaJSStage in Global := FastOptStage
 scalaJSStage in Global := FullOptStage
