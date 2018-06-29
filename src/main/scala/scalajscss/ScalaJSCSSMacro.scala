@@ -67,14 +67,17 @@ private[scalajscss] object ScalaJSCSSMacro {
     if (variants.isEmpty)
       c.abort(c.enclosingPosition, "You must provide at least one styleVariant")
 
-    val styleVariants = variants.map(t => q"$t")
+    val mediaFinal = TermName(c.freshName())
+    val styleVariants = variants.map(t => q"$mediaFinal += $t")
 
     q"""
       {
         import scala.language.reflectiveCalls
         import scalajs.js.JSConverters._
         import scalajs.js
-        ${c.prefix.tree}._IAM_A_BAD_GUY += "\n@media " + $condition + " {" + ..$styleVariants + "\n}"
+        var $mediaFinal = ""
+          ..$styleVariants
+        ${c.prefix.tree}._IAM_A_BAD_GUY += "\n@media " + $condition + " {" + ..$mediaFinal + "\n}"
       }
     """
   }
@@ -113,7 +116,6 @@ private[scalajscss] object ScalaJSCSSMacro {
         import scala.language.reflectiveCalls
         import scalajs.js.JSConverters._
         import scalajs.js
-
         ("\n." + $style + " {\n" + $cssProps + "}").asInstanceOf[scalajscss.StyleVariant]
 
       }
