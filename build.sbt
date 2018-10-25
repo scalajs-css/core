@@ -1,11 +1,11 @@
 name := "core"
 
-//version := "2018.6.0-SNAPSHOT"
+//version := "2018.10.0-SNAPSHOT"
 
 enablePlugins(ScalaJSPlugin)
 
 
-val scala212 = "2.12.4"
+val scala212 = "2.12.7"
 
 scalaVersion := scala212
 
@@ -71,7 +71,7 @@ resolvers += Resolver.bintrayRepo("scalajs-react-interface", "maven")
 resolvers += Resolver.bintrayRepo("scalajs-jest", "maven")
 
 libraryDependencies ++= Seq(
-  "scalajs-jest" %%% "core" % "2018.8.14-RC" % Test
+  "scalajs-jest" %%% "core" % "2018.10.25-RC" % Test
 )
 scalaJSStage in Global := FastOptStage
 //scalaJSStage in Global := FullOptStage
